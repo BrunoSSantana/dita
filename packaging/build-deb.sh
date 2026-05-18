@@ -48,7 +48,7 @@ Package: $PKG
 Version: $VERSION
 Architecture: $ARCH
 Maintainer: Bruno Santana <brunoosouza15@gmail.com>
-Depends: python3 (>= 3.11), python3-gi, python3-gi-cairo, gir1.2-webkit2-4.1, libportaudio2, xclip, ffmpeg
+Depends: python3 (>= 3.11), python3-venv, python3-gi, python3-gi-cairo, gir1.2-webkit2-4.1, libportaudio2, xclip, ffmpeg
 Description: Overlay de transcrição de voz para Linux
  Captura áudio do microfone, transcreve com Whisper e cola o texto
  na janela ativa. Controlado por atalho de teclado configurável.
@@ -62,6 +62,13 @@ set -e
 APP=/opt/dita
 VENV=$APP/.venv
 PY=$(command -v python3.12 || command -v python3.11 || command -v python3)
+PY_VER=$("$PY" -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
+
+# Ensure python<version>-venv is installed (required on Debian/Ubuntu)
+if ! "$PY" -m ensurepip --version >/dev/null 2>&1 && ! dpkg -l "python${PY_VER}-venv" 2>/dev/null | grep -q '^ii'; then
+    echo "==> Instalando python${PY_VER}-venv..."
+    apt-get install -y "python${PY_VER}-venv" >/dev/null
+fi
 
 echo "==> Criando ambiente virtual em $VENV..."
 "$PY" -m venv --system-site-packages "$VENV"
