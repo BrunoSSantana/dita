@@ -8,3 +8,6 @@ config.json
 dist/
 build/
 *.egg-info/
+CLAUDE.md
+tasks/
+run.sh

@@ -1,9 +1,0 @@
-{
-  "model": "medium",
-  "language": "pt",
-  "hotkey": "<ctrl>+<shift>+<space>",
-  "auto_copy": true,
-  "auto_close_after": 3,
-  "device": "cpu",
-  "compute_type": "int8"
-}
