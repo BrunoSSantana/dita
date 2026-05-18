@@ -24,6 +24,10 @@ cp -r \
     frontend/ \
     "$APP_DIR/"
 
+# ── Icon ───────────────────────────────────────────────────────────────────
+mkdir -p "$STAGING/usr/share/icons/hicolor/scalable/apps"
+cp assets/dita.svg "$STAGING/usr/share/icons/hicolor/scalable/apps/dita.svg"
+
 # ── Launcher ───────────────────────────────────────────────────────────────
 mkdir -p "$STAGING/usr/bin"
 cat > "$STAGING/usr/bin/dita" <<'EOF'
@@ -39,7 +43,7 @@ cat > "$STAGING/usr/share/applications/dita.desktop" <<'EOF'
 Name=Dita
 Comment=Transcrição por voz
 Exec=/usr/bin/dita
-Icon=audio-input-microphone
+Icon=dita
 Type=Application
 Categories=Utility;AudioVideo;
 EOF

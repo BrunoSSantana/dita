@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Lint & format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: latest
+
+      - name: Install dev deps
+        run: uv sync --all-groups
+
+      - name: ruff
+        run: uv run ruff check .
+
+      - name: black
+        run: uv run black --check .
+
+      - name: isort
+        run: uv run isort --check .
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v4
+        with:
+          version: latest
+
+      - name: Install system deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            python3-dev \
+            libportaudio2 \
+            xclip \
+            ffmpeg
+
+      - name: Install Python deps
+        run: uv sync --all-groups
+
+      - name: pytest
+        run: uv run pytest tests/ -v
+
+  build-deb:
+    name: Build .deb (smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends dpkg-dev
+
+      - name: Build .deb
+        run: bash build-deb.sh
+
+      - name: Verify package
+        run: dpkg-deb --info dita_*.deb

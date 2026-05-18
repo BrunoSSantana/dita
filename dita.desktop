@@ -2,6 +2,6 @@
 Name=Dita
 Comment=Transcrição por voz
 Exec=/usr/local/bin/dita
-Icon=audio-input-microphone
+Icon=dita
 Type=Application
 Categories=Utility;AudioVideo;
