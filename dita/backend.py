@@ -2,9 +2,9 @@ import logging
 
 import pyperclip
 
-from audio import AudioRecorder
-from config import load_config, save_config
-from transcriber import Transcriber
+from dita.audio import AudioRecorder
+from dita.config import load_config, save_config
+from dita.transcriber import Transcriber
 
 logger = logging.getLogger(__name__)
 

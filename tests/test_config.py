@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-import config
-from config import DEFAULTS
+import dita.config as config
+from dita.config import DEFAULTS
 
 
 @pytest.fixture(autouse=True)

@@ -4,7 +4,7 @@ from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-CONFIG_PATH = Path(__file__).parent / "config.json"
+CONFIG_PATH = Path.home() / ".config" / "dita" / "config.json"
 
 DEFAULTS: dict = {
     "model": "medium",
@@ -19,7 +19,7 @@ DEFAULTS: dict = {
 
 def load_config() -> dict:
     if not CONFIG_PATH.exists():
-        log.warning("config.json not found, using defaults")
+        log.warning("~/.config/dita/config.json not found, using defaults")
         return DEFAULTS.copy()
     try:
         with open(CONFIG_PATH) as f:
@@ -32,5 +32,6 @@ def load_config() -> dict:
 def save_config(patch: dict) -> None:
     cfg = load_config()
     cfg.update(patch)
+    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(CONFIG_PATH, "w") as f:
         json.dump(cfg, f, indent=2, ensure_ascii=False)

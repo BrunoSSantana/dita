@@ -16,7 +16,7 @@ hooks: ## Instala git hooks locais
 	chmod +x .git/hooks/pre-push
 
 run: ## Inicia a aplicação
-	uv run python main.py
+	uv run python -m dita.main
 
 lint: ## Verifica estilo e erros (ruff + isort check)
 	uv run ruff check .

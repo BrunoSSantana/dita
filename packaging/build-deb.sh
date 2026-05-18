@@ -14,15 +14,7 @@ echo "==> Building $DEB_NAME"
 
 # ── App files ──────────────────────────────────────────────────────────────
 mkdir -p "$APP_DIR"
-cp -r \
-    main.py \
-    backend.py \
-    transcriber.py \
-    audio.py \
-    config.py \
-    hotkey.py \
-    frontend/ \
-    "$APP_DIR/"
+cp -r dita/ frontend/ "$APP_DIR/"
 
 # ── Icon ───────────────────────────────────────────────────────────────────
 mkdir -p "$STAGING/usr/share/icons/hicolor/scalable/apps"
@@ -32,7 +24,7 @@ cp assets/dita.svg "$STAGING/usr/share/icons/hicolor/scalable/apps/dita.svg"
 mkdir -p "$STAGING/usr/bin"
 cat > "$STAGING/usr/bin/dita" <<'EOF'
 #!/bin/bash
-exec /opt/dita/.venv/bin/python /opt/dita/main.py "$@"
+exec /opt/dita/.venv/bin/python -m dita.main "$@"
 EOF
 chmod 755 "$STAGING/usr/bin/dita"
 

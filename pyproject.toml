@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.scripts]
-dita = "main:main"
+dita = "dita.main:main"
 
 [dependency-groups]
 dev = [

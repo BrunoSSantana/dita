@@ -5,9 +5,9 @@ from pathlib import Path
 import webview
 from screeninfo import get_monitors
 
-from backend import Backend
-from config import load_config
-from hotkey import make_toggle, start_listener
+from dita.backend import Backend
+from dita.config import load_config
+from dita.hotkey import make_toggle, start_listener
 
 logging.basicConfig(
     level=logging.INFO,
@@ -26,7 +26,7 @@ def main() -> None:
     x = (monitor.width - w) // 2
     y = (monitor.height - h) // 2
 
-    frontend = str(Path(__file__).parent / "frontend" / "index.html")
+    frontend = str(Path(__file__).parent.parent / "frontend" / "index.html")
     window = webview.create_window(
         title="",
         url=frontend,
