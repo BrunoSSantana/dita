@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 
 import numpy as np
 from faster_whisper import WhisperModel
@@ -18,7 +17,9 @@ class Transcriber:
         language: str,
     ) -> None:
         self.language = language
-        logger.info("Loading Whisper model '%s' on %s (%s)...", model, device, compute_type)
+        logger.info(
+            "Loading Whisper model '%s' on %s (%s)...", model, device, compute_type
+        )
         self._model = WhisperModel(model, device=device, compute_type=compute_type)
         logger.info("Whisper model loaded.")
 
