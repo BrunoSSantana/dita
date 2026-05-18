@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Dita
+Comment=Transcrição por voz
+Exec=/usr/local/bin/dita
+Icon=audio-input-microphone
+Type=Application
+Categories=Utility;AudioVideo;

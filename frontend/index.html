@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dita</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="overlay"></div>
+  <div id="app">
+    <div id="header">
+      <button id="lang-btn">PT</button>
+    </div>
+
+    <div id="waveform"></div>
+
+    <div id="text-box">
+      <span id="placeholder">Pressione gravar para transcrever…</span>
+      <span id="transcript"></span>
+      <i id="check-icon" class="ti ti-check"></i>
+    </div>
+
+    <div id="status-row">
+      <span id="status"></span>
+      <span id="timer"></span>
+    </div>
+
+    <div id="controls">
+      <button id="clear-btn" class="icon-btn" title="Limpar">
+        <i class="ti ti-trash"></i>
+      </button>
+      <button id="rec-btn" title="Gravar">
+        <i id="rec-icon" class="ti ti-microphone"></i>
+      </button>
+      <button id="copy-btn" class="icon-btn" title="Copiar">
+        <i class="ti ti-copy"></i>
+      </button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+[project]
+name = "dita"
+version = "0.1.0"
+description = "Overlay de transcrição de voz para Linux"
+requires-python = ">=3.11"
+dependencies = [
+    "faster-whisper",
+    "numpy",
+    "pyperclip",
+    "pywebview",
+    "pynput",
+    "screeninfo",
+    "sounddevice",
+]
+
+[project.scripts]
+dita = "main:main"
+
+[dependency-groups]
+dev = [
+    "black",
+    "isort",
+    "ruff",
+    "pytest",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
