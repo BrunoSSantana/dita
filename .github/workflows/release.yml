@@ -22,6 +22,8 @@ jobs:
 
       - name: Build .deb
         run: bash packaging/build-deb.sh
+        env:
+          VERSION: ${{ github.ref_name }}
 
       - name: Get package name
         id: pkg

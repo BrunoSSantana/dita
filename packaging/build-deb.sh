@@ -4,7 +4,8 @@
 set -euo pipefail
 
 PKG=dita
-VERSION=$(grep '^version' pyproject.toml | head -1 | cut -d'"' -f2)
+# Use VERSION env var (set by CI from git tag) or fall back to pyproject.toml
+VERSION="${VERSION:-$(grep '^version' pyproject.toml | head -1 | cut -d'"' -f2)}"
 ARCH=$(dpkg --print-architecture)
 DEB_NAME="${PKG}_${VERSION}_${ARCH}.deb"
 STAGING=$(mktemp -d)
