@@ -9,7 +9,7 @@ CONFIG_PATH = Path.home() / ".config" / "dita" / "dita.toml"
 DEFAULTS: dict = {
     "model": "medium",
     "language": "pt",
-    "hotkey": "<ctrl>+<shift>+<space>",
+    "hotkey": "<ctrl>+<shift>+d",
     "auto_copy": True,
     "auto_close_after": 3,
     "device": "cpu",
