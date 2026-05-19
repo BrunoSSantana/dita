@@ -6,7 +6,7 @@ const THEMES = {
     subtext:     '#888888',
     accent:      '#e05252',
     border:      'rgba(255,255,255,0.08)',
-    overlay:     'rgba(0,0,0,0.45)',
+    overlay:     'transparent',
     'accent-bg': 'rgba(224,82,82,0.12)',
     'accent-brd':'rgba(224,82,82,0.25)',
   },
