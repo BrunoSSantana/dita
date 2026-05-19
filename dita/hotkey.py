@@ -33,12 +33,14 @@ def make_toggle(window) -> Callable:
     def toggle():
         log.info("hotkey fired")
         window.show()
+
         # Delay garante que a janela esteja visível antes do evaluate_js no X11
         def _js():
             result = window.evaluate_js(
                 "typeof handleHotkey !== 'undefined' && handleHotkey()"
             )
             log.info("evaluate_js result: %s", result)
+
         threading.Timer(0.05, _js).start()
 
     return toggle

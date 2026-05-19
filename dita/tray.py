@@ -7,7 +7,8 @@ log = logging.getLogger(__name__)
 def start_tray(on_quit: Callable) -> object | None:
     try:
         import gi
-        gi.require_version('AppIndicator3', '0.1')
+
+        gi.require_version("AppIndicator3", "0.1")
         from gi.repository import AppIndicator3, Gtk
     except (ImportError, ValueError):
         log.warning("AppIndicator3 not available — install gir1.2-appindicator3-0.1")
