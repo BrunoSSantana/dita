@@ -22,8 +22,9 @@ CURRENT=$(grep '^version' pyproject.toml | head -1 | cut -d'"' -f2)
 echo "==> $CURRENT → $VERSION"
 
 sed -i "s/^version = \"$CURRENT\"/version = \"$VERSION\"/" pyproject.toml
+uv lock --quiet
 
-git add pyproject.toml
+git add pyproject.toml uv.lock
 git commit -m "chore(release): bump version to $VERSION"
 git tag "v$VERSION"
 
