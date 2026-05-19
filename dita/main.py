@@ -45,7 +45,7 @@ def main() -> None:
     backend.set_window(window)
 
     listener = start_listener(cfg["hotkey"], make_toggle(window))
-    tray = start_tray(on_quit=window.destroy)
+    start_tray(on_quit=window.destroy)
 
     log.info("starting dita")
     webview.start(debug=False)
