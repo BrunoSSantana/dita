@@ -1,10 +1,10 @@
-import json
 import logging
+import tomllib
 from pathlib import Path
 
 log = logging.getLogger(__name__)
 
-CONFIG_PATH = Path.home() / ".config" / "dita" / "config.json"
+CONFIG_PATH = Path.home() / ".config" / "dita" / "dita.toml"
 
 DEFAULTS: dict = {
     "model": "medium",
@@ -14,24 +14,31 @@ DEFAULTS: dict = {
     "auto_close_after": 3,
     "device": "cpu",
     "compute_type": "int8",
+    "theme": {"name": "dark"},
 }
+
+
+def _deep_merge(base: dict, override: dict) -> dict:
+    result = base.copy()
+    for key, value in override.items():
+        if isinstance(value, dict) and isinstance(result.get(key), dict):
+            result[key] = _deep_merge(result[key], value)
+        else:
+            result[key] = value
+    return result
 
 
 def load_config() -> dict:
     if not CONFIG_PATH.exists():
-        log.warning("~/.config/dita/config.json not found, using defaults")
-        return DEFAULTS.copy()
+        log.warning("%s not found, using defaults", CONFIG_PATH)
+        return _deep_merge(DEFAULTS, {})
     try:
-        with open(CONFIG_PATH) as f:
-            return {**DEFAULTS, **json.load(f)}
-    except (json.JSONDecodeError, OSError) as e:
-        log.error("failed to read config.json: %s — using defaults", e)
-        return DEFAULTS.copy()
-
-
-def save_config(patch: dict) -> None:
-    cfg = load_config()
-    cfg.update(patch)
-    CONFIG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(CONFIG_PATH, "w") as f:
-        json.dump(cfg, f, indent=2, ensure_ascii=False)
+        with open(CONFIG_PATH, "rb") as f:
+            user = tomllib.load(f)
+        return _deep_merge(DEFAULTS, user)
+    except tomllib.TOMLDecodeError as e:
+        log.error("invalid TOML in %s: %s — using defaults", CONFIG_PATH, e)
+        return _deep_merge(DEFAULTS, {})
+    except OSError as e:
+        log.error("failed to read %s: %s — using defaults", CONFIG_PATH, e)
+        return _deep_merge(DEFAULTS, {})

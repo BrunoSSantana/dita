@@ -3,7 +3,7 @@ import logging
 import pyperclip
 
 from dita.audio import AudioRecorder
-from dita.config import load_config, save_config
+from dita.config import load_config
 from dita.transcriber import Transcriber
 
 logger = logging.getLogger(__name__)
@@ -56,15 +56,6 @@ class Backend:
             return {"ok": True, "data": load_config()}
         except Exception as e:
             logger.exception("get_config failed")
-            return {"ok": False, "error": str(e)}
-
-    def save_language(self, lang: str) -> dict:
-        try:
-            save_config({"language": lang})
-            self._transcriber.language = lang
-            return {"ok": True, "data": None}
-        except Exception as e:
-            logger.exception("save_language failed")
             return {"ok": False, "error": str(e)}
 
     def close(self) -> None:
