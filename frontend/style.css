@@ -1,3 +1,15 @@
+:root {
+  --bg:           #1a1a1e;
+  --surface:      #2a2a2e;
+  --text:         #e2e2e2;
+  --subtext:      #888888;
+  --accent:       #e05252;
+  --border:       rgba(255,255,255,0.08);
+  --overlay:      rgba(0,0,0,0.45);
+  --accent-bg:    rgba(224,82,82,0.12);
+  --accent-brd:   rgba(224,82,82,0.25);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
@@ -11,7 +23,7 @@ html, body {
 #overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--overlay);
   z-index: 0;
 }
 
@@ -23,10 +35,10 @@ html, body {
   margin-top: 50vh;
   transform: translateY(-50%);
 
-  background: rgba(242, 242, 240, 0.72);
+  background: var(--bg);
   backdrop-filter: blur(28px) saturate(1.4);
   -webkit-backdrop-filter: blur(28px) saturate(1.4);
-  border: 0.5px solid rgba(255, 255, 255, 0.88);
+  border: 0.5px solid var(--border);
   border-radius: 18px;
   padding: 24px 24px 20px;
 
@@ -46,7 +58,7 @@ html, body {
 
 #lang-btn {
   font-size: 10px;
-  color: #bbb;
+  color: var(--subtext);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -56,7 +68,7 @@ html, body {
   border-radius: 4px;
   transition: color 0.15s;
 }
-#lang-btn:hover { color: #888; }
+#lang-btn:hover { color: var(--text); }
 
 #waveform {
   display: flex;
@@ -70,7 +82,7 @@ html, body {
 .bar {
   width: 2px;
   border-radius: 2px;
-  background: #c8c8c6;
+  background: var(--subtext);
   height: 3px;
 }
 
@@ -79,7 +91,7 @@ html, body {
   animation: bar-idle 2.4s ease-in-out var(--d, 0s) infinite;
 }
 .bar.active {
-  background: #8a8a87;
+  background: var(--subtext);
   animation: bar-active 0.35s ease-in-out var(--d, 0s) infinite;
 }
 .bar.done {
@@ -92,19 +104,19 @@ html, body {
 
 #text-box {
   min-height: 72px;
-  background: rgba(255, 255, 255, 0.5);
-  border: 0.5px solid rgba(0, 0, 0, 0.07);
+  background: var(--surface);
+  border: 0.5px solid var(--border);
   border-radius: 10px;
   padding: 12px 14px;
   margin-bottom: 14px;
   font-size: 13px;
   line-height: 1.65;
-  color: #444;
+  color: var(--text);
   position: relative;
 }
 
-#placeholder { color: #bbb; }
-#check-icon  { display: none; position: absolute; bottom: 10px; right: 12px; font-size: 13px; color: #bbb; }
+#placeholder { color: var(--subtext); }
+#check-icon  { display: none; position: absolute; bottom: 10px; right: 12px; font-size: 13px; color: var(--subtext); }
 
 #status-row {
   display: flex;
@@ -112,7 +124,7 @@ html, body {
   height: 16px;
   margin-bottom: 14px;
 }
-#status, #timer { font-size: 11px; color: #bbb; letter-spacing: 0.03em; font-family: monospace; }
+#status, #timer { font-size: 11px; color: var(--subtext); letter-spacing: 0.03em; font-family: monospace; }
 
 #controls {
   display: flex;
@@ -124,31 +136,31 @@ html, body {
 .icon-btn {
   width: 34px; height: 34px;
   border-radius: 50%;
-  border: 0.5px solid rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.5);
-  color: #aaa;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  color: var(--subtext);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   font-size: 15px;
   transition: all 0.15s;
 }
-.icon-btn:hover { background: rgba(255,255,255,0.82); color: #666; }
+.icon-btn:hover { filter: brightness(1.2); color: var(--text); }
 
 #rec-btn {
   width: 52px; height: 52px;
   border-radius: 50%;
-  border: 0.5px solid rgba(0,0,0,0.10);
-  background: rgba(255,255,255,0.72);
+  border: 0.5px solid var(--border);
+  background: var(--surface);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: all 0.2s;
 }
-#rec-btn:hover { background: rgba(255,255,255,0.92); }
-#rec-btn.recording { background: rgba(220,80,80,0.10); border-color: rgba(200,70,70,0.22); }
+#rec-btn:hover { filter: brightness(1.2); }
+#rec-btn.recording { background: var(--accent-bg); border-color: var(--accent-brd); }
 
-#rec-icon { font-size: 20px; color: #888; }
+#rec-icon { font-size: 20px; color: var(--subtext); }
 
 /* Fallback para X11 sem compositor — blur não funciona */
 @media (prefers-reduced-transparency: reduce) {
-  #app { background: rgba(242, 242, 240, 0.94); backdrop-filter: none; }
+  #app { backdrop-filter: none; }
 }

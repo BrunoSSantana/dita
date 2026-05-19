@@ -1,3 +1,38 @@
+const THEMES = {
+  dark: {
+    bg:          '#1a1a1e',
+    surface:     '#2a2a2e',
+    text:        '#e2e2e2',
+    subtext:     '#888888',
+    accent:      '#e05252',
+    border:      'rgba(255,255,255,0.08)',
+    overlay:     'rgba(0,0,0,0.45)',
+    'accent-bg': 'rgba(224,82,82,0.12)',
+    'accent-brd':'rgba(224,82,82,0.25)',
+  },
+  light: {
+    bg:          'rgba(242,242,240,0.88)',
+    surface:     'rgba(255,255,255,0.60)',
+    text:        '#333333',
+    subtext:     '#aaaaaa',
+    accent:      '#d04040',
+    border:      'rgba(0,0,0,0.08)',
+    overlay:     'rgba(0,0,0,0.18)',
+    'accent-bg': 'rgba(208,64,64,0.10)',
+    'accent-brd':'rgba(208,64,64,0.22)',
+  },
+};
+
+function applyTheme(themeCfg) {
+  const root = document.documentElement.style;
+  const palette = THEMES[themeCfg.name] ?? THEMES['dark'];
+  const merged = { ...palette, ...themeCfg };
+  for (const [key, val] of Object.entries(merged)) {
+    if (key === 'name') continue;
+    root.setProperty(`--${key}`, val);
+  }
+}
+
 // State machine: idle | recording | processing | done
 let state = 'idle';
 let timerInterval = null;
@@ -191,6 +226,7 @@ window.addEventListener('pywebviewready', async () => {
   api = window.pywebview.api;
   const res = await api.get_config();
   if (res.ok) {
+    applyTheme(res.data.theme ?? { name: 'dark' });
     const lang = res.data.language || 'pt';
     langIndex = LANGS.indexOf(lang);
     if (langIndex === -1) langIndex = 0;
