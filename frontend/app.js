@@ -39,15 +39,9 @@ let timerInterval = null;
 let timerSeconds = 0;
 let api = null;
 
-const LANGS = ['pt', 'en', 'es', 'fr', 'de', 'auto'];
-let langIndex = 0;
-
 // DOM refs
 const recBtn = document.getElementById('rec-btn');
 const recIcon = document.getElementById('rec-icon');
-const clearBtn = document.getElementById('clear-btn');
-const copyBtn = document.getElementById('copy-btn');
-const langBtn = document.getElementById('lang-btn');
 const statusEl = document.getElementById('status');
 const timerEl = document.getElementById('timer');
 const transcriptEl = document.getElementById('transcript');
@@ -180,28 +174,9 @@ async function stopRecording() {
   });
 }
 
-function clearAll() {
-  state = 'idle';
-  stopTimer();
-  resetUi();
-}
-
 function toggleRecord() {
   if (state === 'idle' || state === 'done') startRecording();
   else if (state === 'recording') stopRecording();
-}
-
-function cycleLang() {
-  langIndex = (langIndex + 1) % LANGS.length;
-  const lang = LANGS[langIndex];
-  langBtn.textContent = lang.toUpperCase();
-  api.save_language(lang);
-}
-
-function copyManual() {
-  const text = transcriptEl.textContent;
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(() => showCheck());
 }
 
 function handleHotkey() {
@@ -211,11 +186,7 @@ function handleHotkey() {
   // processing → ignore
 }
 
-// Wire up buttons
 recBtn.addEventListener('click', toggleRecord);
-clearBtn.addEventListener('click', clearAll);
-copyBtn.addEventListener('click', copyManual);
-langBtn.addEventListener('click', cycleLang);
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') api && api.close();
@@ -227,9 +198,5 @@ window.addEventListener('pywebviewready', async () => {
   const res = await api.get_config();
   if (res.ok) {
     applyTheme(res.data.theme ?? { name: 'dark' });
-    const lang = res.data.language || 'pt';
-    langIndex = LANGS.indexOf(lang);
-    if (langIndex === -1) langIndex = 0;
-    langBtn.textContent = LANGS[langIndex].toUpperCase();
   }
 });
