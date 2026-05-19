@@ -25,9 +25,7 @@ def start_listener(hotkey: str, callback: Callable) -> keyboard.GlobalHotKeys | 
         log.info("hotkey registered and listener running: %s", hotkey)
         return listener
     except Exception:
-        log.error(
-            "failed to register hotkey %s — continuing without it", hotkey, exc_info=True
-        )
+        log.error("failed to register hotkey %s", hotkey, exc_info=True)
         return None
 
 
