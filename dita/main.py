@@ -8,6 +8,7 @@ from screeninfo import get_monitors
 from dita.backend import Backend
 from dita.config import load_config
 from dita.hotkey import make_toggle, start_listener
+from dita.tray import start_tray
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,9 +45,11 @@ def main() -> None:
     backend.set_window(window)
 
     listener = start_listener(cfg["hotkey"], make_toggle(window))
+    tray = start_tray(on_quit=window.destroy)
 
     log.info("starting dita")
-    webview.start(debug=False)
+    # hide window immediately — tray is the entry point
+    webview.start(func=window.hide, debug=False)
 
     if listener is not None:
         listener.stop()
