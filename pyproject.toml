@@ -1,6 +1,6 @@
 [project]
 name = "dita"
-version = "0.2.3"
+version = "0.3.0"
 description = "Overlay de transcrição de voz para Linux"
 requires-python = ">=3.11"
 dependencies = [
