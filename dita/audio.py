@@ -11,7 +11,7 @@ SAMPLE_RATE = 16000
 CHANNELS = 1
 DTYPE = "float32"
 CHUNK_INTERVAL: float = 5.0  # seconds between emitted chunks
-CHUNK_OVERLAP: float = 0.3   # seconds of overlap with previous chunk boundary
+CHUNK_OVERLAP: float = 0.3  # seconds of overlap with previous chunk boundary
 
 _MIN_CHUNK_FRAMES = int(0.5 * SAMPLE_RATE)
 
