@@ -60,4 +60,4 @@ class Backend:
 
     def close(self) -> None:
         if self.window is not None:
-            self.window.destroy()
+            self.window.hide()
