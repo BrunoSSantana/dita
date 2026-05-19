@@ -48,7 +48,8 @@ def main() -> None:
     log.info("starting dita")
     webview.start(debug=False)
 
-    listener.stop()
+    if listener is not None:
+        listener.stop()
     log.info("dita exited")
 
 

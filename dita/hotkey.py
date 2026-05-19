@@ -1,14 +1,5 @@
-"""
-Global hotkey listener.
-
-Toggle behavior (state machine lives in JS; Python delegates via evaluate_js):
-  window hidden  → show + focus
-  idle           → startRecording()
-  recording      → stopRecording()
-  processing     → ignore
-"""
-
 import logging
+import threading
 from typing import Callable
 
 from pynput import keyboard
@@ -16,9 +7,9 @@ from pynput import keyboard
 log = logging.getLogger(__name__)
 
 
-def start_listener(hotkey: str, callback: Callable) -> keyboard.GlobalHotKeys:
+def start_listener(hotkey: str, callback: Callable) -> keyboard.GlobalHotKeys | None:
     """
-    Registra atalho global. Retorna o listener (chame .stop() para encerrar).
+    Registra atalho global. Retorna o listener ou None se falhar.
     hotkey: formato pynput, ex: '<ctrl>+<shift>+<space>'
     """
 
@@ -28,21 +19,26 @@ def start_listener(hotkey: str, callback: Callable) -> keyboard.GlobalHotKeys:
         except Exception:
             log.exception("hotkey callback error")
 
-    listener = keyboard.GlobalHotKeys({hotkey: on_activate})
-    listener.start()
-    log.info("hotkey registered: %s", hotkey)
-    return listener
+    try:
+        listener = keyboard.GlobalHotKeys({hotkey: on_activate})
+        listener.start()
+        log.info("hotkey registered and listener running: %s", hotkey)
+        return listener
+    except Exception:
+        log.error("failed to register hotkey %s — continuing without it", hotkey, exc_info=True)
+        return None
 
 
 def make_toggle(window) -> Callable:
-    """
-    Retorna a função de toggle que deve ser passada para start_listener.
-    window: instância do webview.Window
-    """
-
     def toggle():
-        # show() foca a janela se já visível; não falha se já estiver aberta
+        log.info("hotkey fired")
         window.show()
-        window.evaluate_js("typeof handleHotkey !== 'undefined' && handleHotkey()")
+        # Delay garante que a janela esteja visível antes do evaluate_js no X11
+        def _js():
+            result = window.evaluate_js(
+                "typeof handleHotkey !== 'undefined' && handleHotkey()"
+            )
+            log.info("evaluate_js result: %s", result)
+        threading.Timer(0.05, _js).start()
 
     return toggle
