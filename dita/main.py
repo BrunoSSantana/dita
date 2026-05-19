@@ -48,8 +48,7 @@ def main() -> None:
     tray = start_tray(on_quit=window.destroy)
 
     log.info("starting dita")
-    # hide window immediately — tray is the entry point
-    webview.start(func=window.hide, debug=False)
+    webview.start(debug=False)
 
     if listener is not None:
         listener.stop()
