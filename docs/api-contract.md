@@ -61,7 +61,9 @@ pywebview permite `window.evaluate_js()` para push do Python ao frontend.
 
 | Evento | Trigger | Implementação |
 |---|---|---|
-| — | — | Não há push events nesta versão; considerar para progresso de transcrição em v2 |
+| `onPartialTranscript(text)` | Chunk de áudio transcrito durante gravação | Chamado a cada ~5s; o JS deve tratar como opcional — o resultado final de `stop_recording()` é sempre autoritativo |
+
+O JS deve definir `window.onPartialTranscript` para receber atualizações parciais. Se não definido, os eventos são ignorados silenciosamente.
 
 ## Sequência de uma Gravação
 

@@ -38,6 +38,7 @@ let state = 'idle';
 let timerInterval = null;
 let timerSeconds = 0;
 let api = null;
+let partialChunks = [];
 
 // DOM refs
 const recBtn = document.getElementById('rec-btn');
@@ -127,8 +128,16 @@ async function scheduleClose() {
   setTimeout(() => api.close(), delay * 1000);
 }
 
+window.onPartialTranscript = function(text) {
+  if (state !== 'recording') return;
+  partialChunks.push(text);
+  placeholderEl.style.display = 'none';
+  transcriptEl.textContent = partialChunks.join(' ');
+};
+
 async function startRecording() {
   state = 'recording';
+  partialChunks = [];
   setBars('active');
   setStatus('gravando');
   recIcon.className = 'ti ti-player-stop';
@@ -142,7 +151,7 @@ async function startRecording() {
 async function stopRecording() {
   state = 'processing';
   stopTimer();
-  setStatus('processando');
+  setStatus(partialChunks.length ? 'finalizando...' : 'processando');
   setBars('idle');
   recBtn.disabled = true;
   recIcon.className = 'ti ti-microphone';
@@ -168,10 +177,17 @@ async function stopRecording() {
   state = 'done';
   setBars('done');
   setStatus('concluído');
-  typeText(text, () => {
+  if (partialChunks.length) {
+    placeholderEl.style.display = 'none';
+    transcriptEl.textContent = text;
     showCheck();
     scheduleClose();
-  });
+  } else {
+    typeText(text, () => {
+      showCheck();
+      scheduleClose();
+    });
+  }
 }
 
 function toggleRecord() {
