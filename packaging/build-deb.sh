@@ -26,6 +26,7 @@ cp assets/dita.svg "$STAGING/usr/share/icons/hicolor/scalable/apps/dita.svg"
 mkdir -p "$STAGING/usr/bin"
 cat > "$STAGING/usr/bin/dita" <<'EOF'
 #!/bin/bash
+export PYTHONPATH=/opt/dita
 exec /opt/dita/.venv/bin/python -m dita.main "$@"
 EOF
 chmod 755 "$STAGING/usr/bin/dita"
