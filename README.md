@@ -50,29 +50,55 @@ The transcribed text is copied to clipboard automatically. Paste with `Ctrl+V`.
 
 ## Configuration
 
-Edit `~/.config/dita/config.json` (created on first run):
+Dita reads `~/.config/dita/dita.toml` on startup. The file is **never written by the app** — create it manually to override defaults.
 
-```json
-{
-  "model": "medium",
-  "language": "pt",
-  "hotkey": "<ctrl>+<shift>+<space>",
-  "auto_copy": true,
-  "auto_close_after": 3,
-  "device": "cpu",
-  "compute_type": "int8"
-}
+```toml
+# ~/.config/dita/dita.toml
+
+model = "medium"                      # Whisper model size
+language = "pt"                       # transcription language
+hotkey = "<ctrl>+<shift>+<space>"     # pynput key string
+auto_copy = true                      # copy result to clipboard
+auto_close_after = 3                  # seconds to close after transcription (0 = never)
+device = "cpu"                        # cpu | cuda
+compute_type = "int8"                 # int8 | float16 | float32
+
+[theme]
+name = "dark"                         # dark | light
+# Optional color overrides:
+# background = "#1a1a1e"
+# surface    = "#2a2a2e"
+# text       = "#e2e2e2"
+# subtext    = "#888888"
+# accent     = "#e05252"
+# border     = "rgba(255,255,255,0.08)"
 ```
 
-| Field | Values | Default |
-|---|---|---|
-| `model` | `tiny` `base` `small` `medium` `large-v3` | `medium` |
-| `language` | ISO code or `auto` | `pt` |
-| `hotkey` | pynput key string | `<ctrl>+<shift>+<space>` |
-| `auto_copy` | `true` / `false` | `true` |
-| `auto_close_after` | seconds; `0` = never | `3` |
-| `device` | `cpu` / `cuda` | `cpu` |
-| `compute_type` | `int8` (cpu) / `float16` (cuda) | `int8` |
+### Options
+
+| Key | Type | Default | Description |
+|---|---|---|---|
+| `model` | string | `medium` | Whisper model: `tiny` `base` `small` `medium` `large-v3` |
+| `language` | string | `pt` | ISO language code or `auto` for detection |
+| `hotkey` | string | `<ctrl>+<shift>+<space>` | Global hotkey in pynput format |
+| `auto_copy` | bool | `true` | Copy transcription to clipboard automatically |
+| `auto_close_after` | int | `3` | Seconds before window closes (`0` = never) |
+| `device` | string | `cpu` | Inference device: `cpu` or `cuda` |
+| `compute_type` | string | `int8` | Quantization: `int8` (cpu), `float16` or `float32` (cuda) |
+
+### `[theme]` section
+
+| Key | Type | Default | Description |
+|---|---|---|---|
+| `name` | string | `dark` | Base theme: `dark` or `light` |
+| `background` | string | *(theme default)* | Main window background color |
+| `surface` | string | *(theme default)* | Card / panel background |
+| `text` | string | *(theme default)* | Primary text color |
+| `subtext` | string | *(theme default)* | Secondary / muted text color |
+| `accent` | string | *(theme default)* | Accent / highlight color |
+| `border` | string | *(theme default)* | Border color (supports `rgba`) |
+
+Color overrides in `[theme]` are optional — omit any key to use the theme default.
 
 ## Development
 
